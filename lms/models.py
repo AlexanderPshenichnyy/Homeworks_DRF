@@ -5,7 +5,7 @@ from config.settings import NULLABLE
 class Course(models.Model):
     title = models.CharField(max_length=155, verbose_name='course')
     description = models.TextField(verbose_name='description')
-    preview = models.ImageField(**NULLABLE, verbose_name='preview')
+    preview = models.ImageField(upload_to='course/preview/', **NULLABLE, verbose_name='preview')
 
     def __str__(self):
         return self.title

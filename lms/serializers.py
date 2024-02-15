@@ -4,13 +4,6 @@ from lms.models import Course, Lesson
 
 # Описываем сериализатор к модели Course
 
-class CourseSerializer(serializers.ModelSerializer):
-    class Meta:
-        # Модель на основе которой будет сериализатор
-        model = Course
-        # Описание полей для вывода
-        fields = '__all__'
-
 
 # Описываем сериализатор к модели Lesson
 class LessonSerializer(serializers.ModelSerializer):
@@ -19,3 +12,15 @@ class LessonSerializer(serializers.ModelSerializer):
         model = Lesson
         # Описание полей для вывода
         fields = '__all__'
+
+
+class CourseSerializer(serializers.ModelSerializer):
+    lessons_count = serializers.SerializerMethodField()
+    lessons = LessonSerializer(many=True, read_only=True)
+
+    def get_lessons_count(self, obj):
+        return obj.lessons.count()
+
+    class Meta:
+        model = Course
+        fields = ('title', 'preview', 'description', 'lessons_count', 'lessons')
