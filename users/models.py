@@ -1,9 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
-NULLABLE = {
-    'null': True, 'blank': True
-}
+from config.settings import NULLABLE
 
 
 class User(AbstractUser):
@@ -13,3 +10,10 @@ class User(AbstractUser):
     town = models.CharField(max_length=155, **NULLABLE, verbose_name='town')
     phone = models.IntegerField(unique=True, **NULLABLE, verbose_name='phone')
     image = models.ImageField(**NULLABLE, verbose_name='image')
+
+    def __str__(self):
+        return f'{self.first_name}, {self.last_name}'
+
+    class Meta:
+        verbose_name = 'User',
+        verbose_name_plural = 'Users'
