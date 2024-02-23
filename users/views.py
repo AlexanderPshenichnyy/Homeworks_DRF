@@ -24,5 +24,5 @@ class UserViewSet(viewsets.ModelViewSet):
         'create': [AllowAny],
         'update': [IsAuthenticated],
         'partital_update': [IsAuthenticated],
-        'destroy': [IsAuthenticated, IsAdminUser],
+        'destroy': [IsAuthenticated],
     }

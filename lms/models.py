@@ -1,8 +1,11 @@
 from django.db import models
-from config.settings import NULLABLE
+from config import settings
+from config.settings import NULLABLE, AUTH_USER_MODEL
 
 
 class Course(models.Model):
+    owner = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='course author', **NULLABLE)
+
     title = models.CharField(max_length=155, verbose_name='course')
     description = models.TextField(verbose_name='description')
     preview = models.ImageField(upload_to='course/preview/', **NULLABLE, verbose_name='preview')
@@ -22,6 +25,9 @@ class Lesson(models.Model):
     link = models.TextField(verbose_name='link')
 
     course_id = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='course_id')
+    owner = models.ForeignKey(
+        AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='lesson author', **NULLABLE
+    )
 
     def __str__(self):
         return self.title
