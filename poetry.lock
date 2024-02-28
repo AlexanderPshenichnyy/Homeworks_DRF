@@ -13,6 +13,17 @@ typing-extensions = {version = ">=4", markers = "python_version < \"3.11\""}
 tests = ["pytest", "pytest-asyncio", "mypy (>=0.800)"]
 
 [[package]]
+name = "coverage"
+version = "7.4.3"
+description = "Code coverage measurement for Python"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[package.extras]
+toml = ["tomli"]
+
+[[package]]
 name = "cssselect"
 version = "1.2.0"
 description = "cssselect parses CSS3 Selectors and translates them to XPath 1.0"
@@ -236,10 +247,11 @@ python-versions = ">=2"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "d34999b5c769e64bda87a76b5931dc0595e680520af759489ac95a7c814df9a2"
+content-hash = "7cb9a225139a2974c384974658616df6c80dba274cc2ab30222ce1edd028d223"
 
 [metadata.files]
 asgiref = []
+coverage = []
 cssselect = []
 d = []
 django = []

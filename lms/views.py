@@ -1,13 +1,16 @@
 from rest_framework import viewsets, generics
-from lms.models import Course, Lesson
+from lms.models import Course, Lesson, Subscription
 from lms.permissions import IsStaffOrOwner, IsModerator
 from lms.serializers import CourseSerializer, LessonSerializer
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from lms.paginatiors import Paginator
+from rest_framework.views import APIView
 
 
 class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
+    pagination_class = Paginator
     perms_methods = {
         'list': [IsAuthenticated, IsModerator | IsAdminUser],
         'retrieve': [IsAuthenticated, IsStaffOrOwner | IsModerator | IsAdminUser],
@@ -37,6 +40,7 @@ class LessonListAPIView(generics.ListAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
     permisson_classes = [IsAuthenticated, IsModerator | IsAdminUser]
+    pagination_class = Paginator
 
 
 class LessonRetrieveAPIView(generics.RetrieveAPIView):
@@ -54,3 +58,20 @@ class LessonUpdateAPIView(generics.UpdateAPIView):
 class LessonDestroyAPIView(generics.DestroyAPIView):
     queryset = Lesson.objects.all()
     permission_classes = [IsStaffOrOwner]
+
+
+class SubscriptionAPIView(APIView):
+    def post(self, request):
+        user = request.user
+        course_id = request.data.get('course_id', None)
+        if course_id is not None and user.is_authenticated:
+            course = Course.objects.get(pk=course_id)
+            try:
+                subscription = Subscription.objects.get(user=user, course=course)
+                subscription.delete()
+                return Response({"message": "Подписка удалена"})
+            except Subscription.DoesNotExist:
+                Subscription.objects.create(user=user, course=course)
+                return Response({"message": "Подписка добавлена"})
+        else:
+            return Response({"message": "Не удалось выполнить действие"}, status=status.HTTP_400_BAD_REQUEST)

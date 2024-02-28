@@ -16,6 +16,7 @@ class Course(models.Model):
     class Meta:
         verbose_name = 'Course'
         verbose_name_plural = 'Courses'
+        ordering = ['-id']
 
 
 class Lesson(models.Model):
@@ -35,3 +36,16 @@ class Lesson(models.Model):
     class Meta:
         verbose_name = 'Lesson'
         verbose_name_plural = 'Lessons'
+        ordering = ['-id']
+
+
+class Subscription(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    course = models.ForeignKey('Course', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.user}: {self.course} - {self.issubscr}'
+
+    class Meta:
+        verbose_name = 'Subscription'
+        verbose_name_plural = 'Subscriptions'
