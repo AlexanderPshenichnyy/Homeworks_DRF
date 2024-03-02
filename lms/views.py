@@ -1,10 +1,12 @@
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, status
+from rest_framework.response import Response
 from lms.models import Course, Lesson, Subscription
 from lms.permissions import IsStaffOrOwner, IsModerator
 from lms.serializers import CourseSerializer, LessonSerializer
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from lms.paginatiors import Paginator
 from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -63,15 +65,12 @@ class LessonDestroyAPIView(generics.DestroyAPIView):
 class SubscriptionAPIView(APIView):
     def post(self, request):
         user = request.user
-        course_id = request.data.get('course_id', None)
-        if course_id is not None and user.is_authenticated:
-            course = Course.objects.get(pk=course_id)
-            try:
-                subscription = Subscription.objects.get(user=user, course=course)
-                subscription.delete()
-                return Response({"message": "Подписка удалена"})
-            except Subscription.DoesNotExist:
-                Subscription.objects.create(user=user, course=course)
-                return Response({"message": "Подписка добавлена"})
+        course_id = request.data.get('course')
+        course = get_object_or_404(Course, id=course_id)
+        subscription, created = Subscription.objects.get_or_create(user=user, course=course)
+        if not created:
+            subscription.delete()
+            message = 'Подписка удалена'
         else:
-            return Response({"message": "Не удалось выполнить действие"}, status=status.HTTP_400_BAD_REQUEST)
+            message = 'Подписка добавлена'
+        return Response({'message': message}, status=status.HTTP_200_OK)
