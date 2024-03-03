@@ -1,12 +1,15 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, generics, status
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from config.settings import STRIPE_SECRET_KEY
 from lms.models import Course, Lesson, Subscription
 from lms.paginatiors import Paginator
 from lms.permissions import IsStaffOrOwner, IsModerator
 from lms.serializers import CourseSerializer, LessonSerializer
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from rest_framework.views import APIView
-from django.shortcuts import get_object_or_404
+from lms.services import get_create_product, get_create_price, get_create_session
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -70,6 +73,7 @@ class LessonDestroyAPIView(generics.DestroyAPIView):
 
 class SubscriptionAPIView(APIView):
     """APIView for Subscription"""
+
     def post(self, request):
         user = request.user
         course_id = request.data.get('course')
@@ -81,3 +85,23 @@ class SubscriptionAPIView(APIView):
         else:
             message = 'Подписка добавлена'
         return Response({'message': message}, status=status.HTTP_200_OK)
+
+
+class ProductAPIView(APIView):
+    def post(self, request):
+        return get_create_product('Test product', STRIPE_SECRET_KEY)
+
+
+class PriceAPIView(APIView):
+    def post(self, request):
+        return get_create_price(STRIPE_SECRET_KEY,
+                                currency="usd",
+                                unit_amount=100000,
+                                interval="month",
+                                product_title="TEST"
+                                )
+
+
+class SessionAPIView(APIView):
+    def post(self, request):
+        return get_create_session(STRIPE_SECRET_KEY, price_id="price_1OqLlTJotEkEf4n0YgqE8Dxb")

@@ -35,7 +35,7 @@ class Payment(models.Model):
     payment_type = models.CharField(max_length=20, choices=PaymentType.choices, verbose_name='способ оплаты')
 
     def __str__(self):
-        return f'{self.user} - {self.paid_course if self.paid_course else self.paid_lesson} - {self.amount}'
+        return f'{self.user} : {self.paid_course if self.paid_course else self.paid_lesson} - {self.amount}'
 
     class Meta:
         verbose_name = 'paid'

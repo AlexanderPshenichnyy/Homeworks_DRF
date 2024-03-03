@@ -10,7 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+from datetime import timedelta
 from pathlib import Path
+
+from django.conf import settings
 from dotenv import load_dotenv
 
 # Load env
@@ -30,10 +33,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY_DJANGO')
 
+# SECURITY WARNING: keep the secret stripe api-key used in production secret!
+STRIPE_SECRET_KEY = os.getenv('SECRET_KEY_STRIPE')
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
 
 # Application definition
 
@@ -45,10 +52,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-
     'users.apps.UsersConfig',
     'lms.apps.LmsConfig',
-
 
     'rest_framework',
     'django_filters',

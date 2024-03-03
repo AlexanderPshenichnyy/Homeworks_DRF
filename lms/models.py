@@ -1,6 +1,7 @@
 from django.db import models
 from config import settings
 from config.settings import NULLABLE, AUTH_USER_MODEL
+from lms.services import converter_for_price
 
 
 class Course(models.Model):
@@ -10,9 +11,10 @@ class Course(models.Model):
     title = models.CharField(max_length=155, verbose_name='course')
     description = models.TextField(verbose_name='description')
     preview = models.ImageField(upload_to='course/preview/', **NULLABLE)
+    price = models.IntegerField(default=100, verbose_name="Amount in kopecks")
 
     def __str__(self):
-        return self.title
+        return f'{self.title}'
 
     class Meta:
         verbose_name = 'Course'
