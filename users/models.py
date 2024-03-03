@@ -9,9 +9,9 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=155, verbose_name='first_name')
     last_name = models.CharField(max_length=155, verbose_name='last_name')
     email = models.EmailField(unique=True, verbose_name='email')
-    town = models.CharField(max_length=155, **NULLABLE, verbose_name='town')
-    phone = models.IntegerField(unique=True, **NULLABLE, verbose_name='phone')
-    image = models.ImageField(upload_to='users/avatar/', **NULLABLE, verbose_name='image')
+    town = models.CharField(max_length=155, **NULLABLE)
+    phone = models.IntegerField(unique=True, **NULLABLE)
+    image = models.ImageField(upload_to='users/avatar/', **NULLABLE)
 
     def __str__(self):
         return f'{self.first_name}, {self.last_name}'
@@ -26,10 +26,11 @@ class Payment(models.Model):
         CASH = 'cash', 'Cash'
         BANK = 'bank', 'Bank'
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='user')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, **NULLABLE,
+                             related_name='client', verbose_name='user')
     date_of_payment = models.DateTimeField(auto_now=True, verbose_name='date_of_payment')
-    paid_course = models.ForeignKey(Course, on_delete=models.CASCADE, **NULLABLE, verbose_name='paid_course')
-    paid_lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, **NULLABLE, verbose_name='paid_lesson')
+    paid_course = models.ForeignKey(Course, on_delete=models.SET_NULL, **NULLABLE)
+    paid_lesson = models.ForeignKey(Lesson, on_delete=models.SET_NULL, **NULLABLE)
     amount = models.DecimalField(max_digits=12, decimal_places=2, verbose_name='сумма оплаты')
     payment_type = models.CharField(max_length=20, choices=PaymentType.choices, verbose_name='способ оплаты')
 
@@ -38,5 +39,5 @@ class Payment(models.Model):
 
     class Meta:
         verbose_name = 'paid'
-        verbose_name_plural = 'paid'
-        ordering = ('user', 'date_of_payment')
+        verbose_name_plural = 'paids'
+        ordering = ('user', 'date_of_payment', 'paid_course', 'paid_lesson')

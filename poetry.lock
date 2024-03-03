@@ -62,6 +62,18 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-cors-headers"
+version = "4.3.1"
+description = "django-cors-headers is a Django application for handling the server headers required for Cross-Origin Resource Sharing (CORS)."
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[package.dependencies]
+asgiref = ">=3.6"
+Django = ">=3.2"
+
+[[package]]
 name = "django-filter"
 version = "23.5"
 description = "Django-filter is a reusable Django application for allowing users to filter querysets dynamically."
@@ -106,6 +118,35 @@ python-jose = ["python-jose (==3.3.0)"]
 crypto = ["cryptography (>=3.3.1)"]
 
 [[package]]
+name = "drf-yasg"
+version = "1.21.7"
+description = "Automated generation of real Swagger/OpenAPI 2.0 schemas from Django Rest Framework code."
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+django = ">=2.2.16"
+djangorestframework = ">=3.10.3"
+inflection = ">=0.3.1"
+packaging = ">=21.0"
+pytz = ">=2021.1"
+pyyaml = ">=5.1"
+uritemplate = ">=3.0.0"
+
+[package.extras]
+coreapi = ["coreapi (>=2.3.3)", "coreschema (>=0.0.4)"]
+validation = ["swagger-spec-validator (>=2.1.0)"]
+
+[[package]]
+name = "inflection"
+version = "0.5.1"
+description = "A port of Ruby on Rails inflector to Python"
+category = "dev"
+optional = false
+python-versions = ">=3.5"
+
+[[package]]
 name = "lxml"
 version = "5.1.0"
 description = "Powerful and Pythonic XML processing library combining libxml2/libxslt with the ElementTree API."
@@ -130,6 +171,14 @@ python-versions = ">=3.8"
 [package.extras]
 docs = ["mkdocs (>=1.5)", "mkdocs-nature (>=0.6)", "mdx-gh-links (>=0.2)", "mkdocstrings", "mkdocs-gen-files", "mkdocs-section-index", "mkdocs-literate-nav"]
 testing = ["coverage", "pyyaml"]
+
+[[package]]
+name = "packaging"
+version = "23.2"
+description = "Core utilities for Python packages"
+category = "dev"
+optional = false
+python-versions = ">=3.7"
 
 [[package]]
 name = "pillow"
@@ -216,6 +265,14 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "pyyaml"
+version = "6.0.1"
+description = "YAML parser and emitter for Python"
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+
+[[package]]
 name = "sqlparse"
 version = "0.4.4"
 description = "A non-validating SQL parser."
@@ -244,10 +301,18 @@ category = "main"
 optional = false
 python-versions = ">=2"
 
+[[package]]
+name = "uritemplate"
+version = "4.1.1"
+description = "Implementation of RFC 6570 URI Templates"
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "7cb9a225139a2974c384974658616df6c80dba274cc2ab30222ce1edd028d223"
+content-hash = "3835aace008d6c6f8adbc2ce4da68af17be117cc21496a46e0dce675c0bdc9c0"
 
 [metadata.files]
 asgiref = []
@@ -255,11 +320,15 @@ coverage = []
 cssselect = []
 d = []
 django = []
+django-cors-headers = []
 django-filter = []
 djangorestframework = []
 djangorestframework-simplejwt = []
+drf-yasg = []
+inflection = []
 lxml = []
 markdown = []
+packaging = []
 pillow = []
 psycopg2-binary = []
 pygments = []
@@ -267,6 +336,8 @@ pyjwt = []
 pyquery = []
 python-dotenv = []
 pytz = []
+pyyaml = []
 sqlparse = []
 typing-extensions = []
 tzdata = []
+uritemplate = []

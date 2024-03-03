@@ -3,7 +3,9 @@ from rest_framework.serializers import ValidationError
 
 
 class LinkValidator:
-
+    """
+    Video Tutorial Link Validator
+    """
     def __init__(self, field):
         self.field = field
 

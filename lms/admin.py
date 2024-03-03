@@ -5,4 +5,3 @@ from .models import Lesson, Course
 admin.site.register(Course)
 
 admin.site.register(Lesson)
-

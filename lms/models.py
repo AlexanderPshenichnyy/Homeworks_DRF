@@ -4,11 +4,12 @@ from config.settings import NULLABLE, AUTH_USER_MODEL
 
 
 class Course(models.Model):
+    """Model for Course"""
     owner = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='course author', **NULLABLE)
 
     title = models.CharField(max_length=155, verbose_name='course')
     description = models.TextField(verbose_name='description')
-    preview = models.ImageField(upload_to='course/preview/', **NULLABLE, verbose_name='preview')
+    preview = models.ImageField(upload_to='course/preview/', **NULLABLE)
 
     def __str__(self):
         return self.title
@@ -20,15 +21,17 @@ class Course(models.Model):
 
 
 class Lesson(models.Model):
+    """
+    Model for Lesson
+    """
     title = models.CharField(max_length=155, verbose_name='title')
     description = models.TextField(verbose_name='description')
-    preview = models.ImageField(**NULLABLE, verbose_name='preview')
+    preview = models.ImageField(**NULLABLE)
     link = models.TextField(verbose_name='link')
 
-    course_id = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='course_id')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='lesson', verbose_name='course_id')
     owner = models.ForeignKey(
-        AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='lesson author', **NULLABLE
-    )
+        AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='lesson author', **NULLABLE)
 
     def __str__(self):
         return self.title
@@ -40,11 +43,12 @@ class Lesson(models.Model):
 
 
 class Subscription(models.Model):
+    """Model for Subscription"""
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     course = models.ForeignKey('Course', on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.user}: {self.course} - {self.issubscr}'
+        return f'{self.user} : {self.course}'
 
     class Meta:
         verbose_name = 'Subscription'

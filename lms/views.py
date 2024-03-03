@@ -1,18 +1,18 @@
 from rest_framework import viewsets, generics, status
 from rest_framework.response import Response
 from lms.models import Course, Lesson, Subscription
+from lms.paginatiors import Paginator
 from lms.permissions import IsStaffOrOwner, IsModerator
 from lms.serializers import CourseSerializer, LessonSerializer
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from lms.paginatiors import Paginator
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 
 
 class CourseViewSet(viewsets.ModelViewSet):
-    serializer_class = CourseSerializer
+    """ViewSet for Course"""
     queryset = Course.objects.all()
-    pagination_class = Paginator
+    serializer_class = CourseSerializer
     perms_methods = {
         'list': [IsAuthenticated, IsModerator | IsAdminUser],
         'retrieve': [IsAuthenticated, IsStaffOrOwner | IsModerator | IsAdminUser],
@@ -21,6 +21,7 @@ class CourseViewSet(viewsets.ModelViewSet):
         'partial_update': [IsAuthenticated, IsStaffOrOwner | IsModerator],
         'destroy': [IsAuthenticated, IsStaffOrOwner | IsAdminUser],
     }
+    pagination_class = Paginator
 
     def get_permissions(self):
         self.permission_classes = self.perms_methods.get(self.action, self.permission_classes)
@@ -31,6 +32,7 @@ class CourseViewSet(viewsets.ModelViewSet):
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
+    """APIView for create lesson"""
     serializer_class = LessonSerializer
     permission_classes = [IsAuthenticated, ~IsModerator]
 
@@ -39,6 +41,7 @@ class LessonCreateAPIView(generics.CreateAPIView):
 
 
 class LessonListAPIView(generics.ListAPIView):
+    """APIView for lesson"""
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
     permisson_classes = [IsAuthenticated, IsModerator | IsAdminUser]
@@ -46,23 +49,27 @@ class LessonListAPIView(generics.ListAPIView):
 
 
 class LessonRetrieveAPIView(generics.RetrieveAPIView):
+    """APIView for lesson retrieve"""
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
     permission_classes = [IsAuthenticated, IsStaffOrOwner | IsModerator | IsAdminUser]
 
 
 class LessonUpdateAPIView(generics.UpdateAPIView):
+    """APIView for lesson update"""
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
     permission_classes = [IsStaffOrOwner]
 
 
 class LessonDestroyAPIView(generics.DestroyAPIView):
+    """APIView for lesson destroy"""
     queryset = Lesson.objects.all()
     permission_classes = [IsStaffOrOwner]
 
 
 class SubscriptionAPIView(APIView):
+    """APIView for Subscription"""
     def post(self, request):
         user = request.user
         course_id = request.data.get('course')
