@@ -1,5 +1,5 @@
-
 from rest_framework import serializers
+
 from .models import Course, Lesson, Subscription
 from .services import converter_for_price
 from .validators import LinkValidator
@@ -20,13 +20,13 @@ class CourseSerializer(serializers.ModelSerializer):
     def get_lessons_count(self, obj):
         return obj.lesson.count()
 
-
     class Meta:
         model = Course
         fields = '__all__'
 
     def get_course_amount(self, instance):
         return converter_for_price(instance.price)
+
 
 class SubscriptionSerializer(serializers.ModelSerializer):
     class Meta:

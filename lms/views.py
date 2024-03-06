@@ -92,17 +92,3 @@ class PaymentCreateAPIView(APIView):
         create_product_price = get_create_price(prod_name=create_product, amount=2000)
         create_session = get_create_session(create_product_price)
         return create_session
-
-# class PriceAPIView(APIView):
-#     def post(self, request):
-#         return get_create_price(
-#                                 currency="usd",
-#                                 unit_amount=100000,
-#                                 interval="month",
-#                                 product_title="TEST"
-#                                 )
-#
-#
-# class SessionAPIView(APIView):
-#     def post(self, request):
-#         return get_create_session(price_id="price_1OqLlTJotEkEf4n0YgqE8Dxb")
