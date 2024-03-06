@@ -4,7 +4,6 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from config.settings import STRIPE_SECRET_KEY
 from lms.models import Course, Lesson, Subscription
 from lms.paginatiors import Paginator
 from lms.permissions import IsStaffOrOwner, IsModerator
@@ -87,21 +86,23 @@ class SubscriptionAPIView(APIView):
         return Response({'message': message}, status=status.HTTP_200_OK)
 
 
-class ProductAPIView(APIView):
+class PaymentCreateAPIView(APIView):
     def post(self, request):
-        return get_create_product('Test product', STRIPE_SECRET_KEY)
+        create_product = get_create_product(product_title="Online course")
+        create_product_price = get_create_price(prod_name=create_product, amount=2000)
+        create_session = get_create_session(create_product_price)
+        return create_session
 
-
-class PriceAPIView(APIView):
-    def post(self, request):
-        return get_create_price(STRIPE_SECRET_KEY,
-                                currency="usd",
-                                unit_amount=100000,
-                                interval="month",
-                                product_title="TEST"
-                                )
-
-
-class SessionAPIView(APIView):
-    def post(self, request):
-        return get_create_session(STRIPE_SECRET_KEY, price_id="price_1OqLlTJotEkEf4n0YgqE8Dxb")
+# class PriceAPIView(APIView):
+#     def post(self, request):
+#         return get_create_price(
+#                                 currency="usd",
+#                                 unit_amount=100000,
+#                                 interval="month",
+#                                 product_title="TEST"
+#                                 )
+#
+#
+# class SessionAPIView(APIView):
+#     def post(self, request):
+#         return get_create_session(price_id="price_1OqLlTJotEkEf4n0YgqE8Dxb")

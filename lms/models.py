@@ -1,7 +1,6 @@
 from django.db import models
 from config import settings
 from config.settings import NULLABLE, AUTH_USER_MODEL
-from lms.services import converter_for_price
 
 
 class Course(models.Model):

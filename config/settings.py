@@ -11,13 +11,15 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from datetime import timedelta
-from pathlib import Path
+import pathlib
+
+import stripe
 
 from django.conf import settings
 from dotenv import load_dotenv
 
 # Load env
-env_path = Path('.') / '.env'
+env_path = pathlib.Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
 
 NULLABLE = {
@@ -25,7 +27,7 @@ NULLABLE = {
 }
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -34,7 +36,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY_DJANGO')
 
 # SECURITY WARNING: keep the secret stripe api-key used in production secret!
-STRIPE_SECRET_KEY = os.getenv('SECRET_KEY_STRIPE')
+stripe.api_key = os.getenv('SECRET_KEY_STRIPE')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

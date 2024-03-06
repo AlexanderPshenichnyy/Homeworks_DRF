@@ -205,6 +205,14 @@ optional = false
 python-versions = ">=3.7"
 
 [[package]]
+name = "pathlib"
+version = "1.0.1"
+description = "Object-oriented filesystem paths"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "pillow"
 version = "10.2.0"
 description = "Python Imaging Library (Fork)"
@@ -388,7 +396,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "71e1503fa4b69ad8973235cadc28d5228f961daee50f01d78d877927bb78ba00"
+content-hash = "703ba819a0850a333e2c11f233fcf0cbc0dc50d93b0b6d0194531deda0ffc97a"
 
 [metadata.files]
 asgiref = []
@@ -408,6 +416,7 @@ inflection = []
 lxml = []
 markdown = []
 packaging = []
+pathlib = []
 pillow = []
 psycopg2-binary = []
 pygments = []

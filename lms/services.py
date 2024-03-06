@@ -1,5 +1,5 @@
+
 import stripe
-from rest_framework import status
 from rest_framework.response import Response
 
 
@@ -11,39 +11,35 @@ def converter_for_price(pennies_price):
     return rub_price
 
 
-def get_create_product(product_title, stripe_api_key):
+def get_create_product(product_title):
     """
     Creating product for payment service
     """
-    stripe.api_key = stripe_api_key
-    stripe.Product.create(name=product_title)
-    return Response({"message": "Success!"}, status=status.HTTP_200_OK)
+    product = stripe.Product.create(name=product_title)
+    return product["name"]
 
 
-def get_create_price(stripe_api_key, currency, unit_amount, interval, product_title):
+def get_create_price(prod_name, amount):
     """
     Creating price for product
     """
-    stripe.api_key = stripe_api_key
-    stripe.Price.create(
-        currency=currency,
-        unit_amount=unit_amount,
-        recurring={"interval": interval},
-        product_data={"name": product_title},
+    product_price = stripe.Price.create(
+        currency="usd",
+        unit_amount=amount,
+        recurring={"interval": 'month'},
+        product_data={"name": prod_name},
     )
-    return Response({"message": "Success!"}, status=status.HTTP_200_OK)
+    return product_price["id"]
 
 
-def get_create_session(stripe_api_key, price_id, quantity=1):
+def get_create_session(price_id):
     """
     Creating payment session
     returns: payment link
     """
-    stripe.api_key = stripe_api_key
-    price_id = price_id
     # Получите id цены из запроса
     payment_link = stripe.PaymentLink.create(
-        line_items=[{"price": price_id, "quantity": quantity}],
+        line_items=[{"price": price_id, "quantity": 1}],
     )
     # Верните URL платежного линка
-    return Response(payment_link['url'])
+    return Response(f"payment link : {payment_link['url']} , payment id : {payment_link['id']}")
