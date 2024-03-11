@@ -8,7 +8,6 @@ from lms.models import Course, Lesson, Subscription
 from lms.paginatiors import Paginator
 from lms.permissions import IsStaffOrOwner, IsModerator
 from lms.serializers import CourseSerializer, LessonSerializer
-from lms.services import get_create_product, get_create_price, get_create_session
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -84,11 +83,3 @@ class SubscriptionAPIView(APIView):
         else:
             message = 'Подписка добавлена'
         return Response({'message': message}, status=status.HTTP_200_OK)
-
-
-class PaymentCreateAPIView(APIView):
-    def post(self, request):
-        create_product = get_create_product(product_title="Online course")
-        create_product_price = get_create_price(prod_name=create_product, amount=2000)
-        create_session = get_create_session(create_product_price)
-        return create_session

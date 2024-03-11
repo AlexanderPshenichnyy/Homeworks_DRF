@@ -1,10 +1,9 @@
-from rest_framework.test import APITestCase, force_authenticate, APIClient
-from rest_framework import status
-from rest_framework.response import Response
-from users.models import User
-from lms.models import Lesson, Course, Subscription
 from django.urls import reverse
-from lms.views import LessonListAPIView
+from rest_framework import status
+from rest_framework.test import APITestCase, APIClient
+
+from lms.models import Course, Subscription
+from users.models import User
 
 
 class CRUDTestCase(APITestCase):

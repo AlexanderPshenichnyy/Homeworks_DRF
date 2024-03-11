@@ -6,7 +6,7 @@ app_name = apps.UsersConfig.name
 
 urlpatterns = [
     path('payment/', views.PaymentListView.as_view(), name='payments'),
-    path('users/', views.PaymentListView.as_view(), name='payments'),
+    path('v1/checkout/sessions/', views.PaymentCreateAPIView.as_view()),
 
 
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

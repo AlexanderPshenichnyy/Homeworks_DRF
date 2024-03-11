@@ -11,7 +11,7 @@ def converter_for_price(pennies_price):
     return rub_price
 
 
-def get_create_product(product_title):
+def create_product(product_title):
     """
     Creating product for payment service
     """
@@ -19,7 +19,7 @@ def get_create_product(product_title):
     return product["name"]
 
 
-def get_create_price(prod_name, amount):
+def create_price(prod_name, amount):
     """
     Creating price for product
     """
@@ -32,7 +32,7 @@ def get_create_price(prod_name, amount):
     return product_price["id"]
 
 
-def get_create_session(price_id):
+def create_session(price_id):
     """
     Creating payment session
     returns: payment link
