@@ -1,6 +1,5 @@
 
 import stripe
-from rest_framework.response import Response
 
 
 def converter_for_price(pennies_price):
@@ -37,9 +36,12 @@ def create_session(price_id):
     Creating payment session
     returns: payment link
     """
-    # Получите id цены из запроса
-    payment_link = stripe.PaymentLink.create(
-        line_items=[{"price": price_id, "quantity": 1}],
+    session = stripe.PaymentLink.create(
+        line_items=[
+            {
+                'price': price_id,
+                'quantity': 1,
+            },
+        ],
     )
-    # Верните URL платежного линка
-    return Response(f"payment link : {payment_link['url']} , payment id : {payment_link['id']}")
+    return session["url"]

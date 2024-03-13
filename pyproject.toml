@@ -19,6 +19,7 @@ django-cors-headers = "^4.3.1"
 stripe = "^8.5.0"
 views = "^0.3"
 pathlib = "^1.0.1"
+celery = "^5.3.6"
 
 [tool.poetry.dev-dependencies]
 drf-yasg = "^1.21.7"

@@ -26,16 +26,13 @@ class Payment(models.Model):
         CASH = 'cash', 'Cash'
         BANK = 'bank', 'Bank'
 
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, **NULLABLE,
-                             related_name='client', verbose_name='user')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, **NULLABLE)
     date_of_payment = models.DateTimeField(auto_now=True, verbose_name='date_of_payment')
     paid_course = models.ForeignKey(Course, on_delete=models.SET_NULL, **NULLABLE)
     paid_lesson = models.ForeignKey(Lesson, on_delete=models.SET_NULL, **NULLABLE)
-    amount = models.DecimalField(max_digits=12, decimal_places=2, verbose_name='сумма оплаты')
-    payment_type = models.CharField(max_length=20, choices=PaymentType.choices, verbose_name='способ оплаты')
-
-    def __str__(self):
-        return f'{self.user} : {self.paid_course if self.paid_course else self.paid_lesson} - {self.amount}'
+    amount = models.IntegerField(verbose_name='payment amount')
+    payment_type = models.CharField(max_length=20, choices=PaymentType.choices, verbose_name='payment method')
+    url = models.URLField(max_length=300, verbose_name="url", **NULLABLE)
 
     class Meta:
         verbose_name = 'paid'
